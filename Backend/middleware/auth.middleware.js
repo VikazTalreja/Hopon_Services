@@ -6,11 +6,19 @@ const userModel = require('../models/user.model');
 
 module.exports.authUser = async (req, res, next ) =>{
 
-    const token = req.cookies.token || req.headers.authorization.split(' ')[ 1 ];
+    const token = req.cookies.token || req.headers.authorization?.split(' ')[ 1 ];
     
     if(!token) {
-        res.status(401).json({message: 'UnAuthorized1'})
+        res.status(401).json({message: 'UnAuthorized'})
     }
+
+
+    const isBlacklisted = await userModel.findOne({ token : token });
+
+    if(isBlacklisted){
+        res.status(401).json({message: 'UnAuthorized'})
+    }
+
 
     try{
 
@@ -19,9 +27,9 @@ module.exports.authUser = async (req, res, next ) =>{
 
         req.user = user ; 
         return next();
-
-    }catch (err) {
-        res.status(401).json({message: 'UnAuthorizedC'})
+    }
+    catch (err) {
+        res.status(401).json({message: 'UnAuthorized'})
         console.log(err);
     }
 }
