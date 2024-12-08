@@ -38,7 +38,7 @@ const captainSchema = new mongoose.Schema({
         deafult:'inactive'
     },
 
-    Vehicle:{
+    vehicle:{
         color:{
             type:String,
             required:true,
@@ -64,12 +64,11 @@ const captainSchema = new mongoose.Schema({
     location:{
         latitude:{
             type:Number,
-            required:false,
+      
         },
         
         longitude:{
             type:Number,
-            required:false,
         }
     }
 
